@@ -1,5 +1,5 @@
 WITH later_statuses AS (
-    -- усі статуси для кандидатів з тієї ж пари кандидат–вакансія, які пізніші за лід
+-- усі статуси для кандидатів з тієї ж пари кандидат–вакансія, які пізніші за лід
     SELECT user_uid, vacancy_id, MIN(creation_date) AS min_later_date
     FROM early_statuses
     WHERE creation_date >= '2025-03-01 00:00:00'
@@ -32,7 +32,7 @@ JOIN access ac_v ON ac_v.entity_type = 'vacancy'
 WHERE es.type_id = 1
   AND es.creation_date >= '2025-03-01 00:00:00'
   AND es.creation_date <  '2025-04-01 00:00:00'
-  -- немає пізніших статусів для того ж кандидата і вакансії
+-- немає пізніших статусів для того ж кандидата і вакансії
   AND NOT EXISTS (
       SELECT 1
       FROM early_statuses es2
@@ -40,7 +40,7 @@ WHERE es.type_id = 1
         AND es2.vacancy_id = es.vacancy_id
         AND es2.creation_date > es.creation_date
   )
-  -- немає відправлених резюме
+-- немає відправлених резюме
   AND NOT EXISTS (
       SELECT 1
       FROM resumes r
